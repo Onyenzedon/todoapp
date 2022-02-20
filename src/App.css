@@ -36,3 +36,31 @@
     transform: rotate(360deg);
   }
 }
+
+.task-table, tr, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  /* margin-left: 20px; */
+  /* margin-top: 20px; */
+  /* margin-right: 20px; */
+  height: 20px;
+  width: 30px;
+  text-align: left;
+}
+
+.task-table{
+  margin: 20px;
+  width: 80%;
+  align-items: center;
+  margin: auto;
+  margin-top: 50px;
+}
+
+.task-table tbody tr:nth-child(even){
+  background-color: #dddddd;
+}
+
+.number {
+  margin: auto;
+  text-align: center;
+}

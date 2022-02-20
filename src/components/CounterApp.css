@@ -1,0 +1,21 @@
+.firstdiv:nth-child(even){
+    background-color: rgb(252, 248, 248);
+
+}
+
+.firstdiv{
+    margin-top: 50px;
+}
+
+.firstdiv img {
+    margin: 5% 50%;
+    width: 500px;
+    height: 500px;
+    max-width: 300px;
+    max-height: 200px;
+    border-radius: 800%;
+}
+
+.firstdiv div p {
+    text-transform: capitalize;
+}
