@@ -29,6 +29,10 @@ function App() {
       console.log(sum);
 }
 
+  // const setNewTasks = (taskData) => {
+  //   setTasks([...tasks, taskData])
+  // };
+
   return (
     <div className="App">
       <Router>  
