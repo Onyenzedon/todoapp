@@ -1,41 +1,32 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { data } from './data'
 
 const TaskForm = ({tasks, setTasks, grandTotal}) => {
-  // let navigate = useNavigate();
+  let navigate = useNavigate();
   
   const [serialNo, setSerialNo] = useState("")
   const [description, setDescription] = useState("")
   const [brand, setBrand] = useState("")
   const [quantity, setQuantity] = useState("")
+  const [value, setValue] = useState("")
   const [unitPrice, setUnitPrice] = useState("")
 
 const addNewProduct = () => {
-        let formField = new FormData();
 
-        formField.append("description", description);
-        formField.append("brand", brand);
-        formField.append("quantity", quantity);
-        formField.append("unitPrice", unitPrice);
-        
-        setTasks(formField)
-        console.log(tasks);
-        // navigate('/')
+        setTasks([...tasks, {
+          Description: description,
+          Brand: brand,
+          Quantity: quantity,
+          Value: value,
+          UnitPrice: unitPrice
+        }])
+        navigate('/')
     } 
 
   return (
     <div className="container">
         <div className="form-group">
-          <div className="form-group">
-            <input
-              type="text"
-              className="form-control form-control-lg"
-              placeholder="Enter Serial Number"
-              name="serialNo"
-              value={serialNo}
-              onChange={(e) => setSerialNo(e.target.value)}
-            />
-          </div>
           <div className="form-group">
             <input
               type="text"
@@ -70,6 +61,16 @@ const addNewProduct = () => {
             <input
               type="text"
               className="form-control form-control-lg"
+              placeholder="Enter Value"
+              name="value"
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="text"
+              className="form-control form-control-lg"
               placeholder="Enter Product Price"
               name="unitPrice"
               value={unitPrice}
@@ -80,7 +81,7 @@ const addNewProduct = () => {
             Add Product
           </button>
           <Link to="/">
-            <button>Home</button>
+            <button className='btn btn-primary mt-5'>Home</button>
           </Link>
         </div>
       </div>

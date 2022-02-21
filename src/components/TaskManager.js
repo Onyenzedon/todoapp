@@ -35,7 +35,6 @@ const TaskManager = ({tasks, setTasks, prices, setPrices, grandTotal}) => {
                     {/* <td>{task.Value}</td> */}
                     <td className='number'>{task.UnitPrice}</td>
                     <td className='number'>{task.Quantity * task.UnitPrice}</td>
-                    {console.log(tasks.indexOf(task) + 1)}
                 </tr>
                 ))}
             </tbody>
