@@ -1,28 +1,61 @@
-import React, { useState } from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { data } from './data'
+// import { data } from './data'
 
-const TaskForm = ({tasks, setTasks, grandTotal}) => {
+const TaskForm = ({tasks, setTasks, grandTotal, sum}) => {
   let navigate = useNavigate();
   
-  const [serialNo, setSerialNo] = useState("")
   const [description, setDescription] = useState("")
   const [brand, setBrand] = useState("")
-  const [quantity, setQuantity] = useState("")
+  const [quantity, setQuantity] = useState()
   const [value, setValue] = useState("")
-  const [unitPrice, setUnitPrice] = useState("")
+  const [unitPrice, setUnitPrice] = useState()
 
-const addNewProduct = () => {
+const addNewProduct = async () => {
+  let formField = new FormData();
 
-        setTasks([...tasks, {
-          Description: description,
-          Brand: brand,
-          Quantity: quantity,
-          Value: value,
-          UnitPrice: unitPrice
-        }])
-        navigate('/')
-    } 
+  formField.append("Description", description);
+  formField.append("Brand", brand);
+  formField.append("Quantity", quantity);
+  formField.append("Value", value)
+  formField.append("Unit_Price", unitPrice)
+  // formField.append("TotalPrice", quantity * unitPrice)
+
+  console.log(formField);
+
+
+  // const newTask = {
+  //   Description: description,
+  //   Brand: brand,
+  //   Quantity: quantity,
+  //   Value: value,
+  //   Unit_Price: unitPrice
+  // }
+
+        // setTasks([...tasks, newTask])
+
+        // console.log(tasks);
+
+        await axios({
+          method: 'post',
+          url:"http://127.0.0.1:8000/api/",
+          data: formField
+        })
+        .then((response) => {
+          console.log(response.data);
+          navigate("/");
+        })
+        .catch(err => console.log(err))
+      };
+        
+      
+
+      // useEffect(() => {
+      //   addNewProduct()
+      // }, []
+      // )
+      
 
   return (
     <div className="container">
@@ -49,7 +82,7 @@ const addNewProduct = () => {
           </div>
           <div className="form-group">
             <input
-              type="text"
+              type="number"
               className="form-control form-control-lg"
               placeholder="Enter Quantity"
               name="quantity"
@@ -69,7 +102,7 @@ const addNewProduct = () => {
           </div>
           <div className="form-group">
             <input
-              type="text"
+              type="number"
               className="form-control form-control-lg"
               placeholder="Enter Product Price"
               name="unitPrice"
@@ -89,6 +122,9 @@ const addNewProduct = () => {
 }
 
 export default TaskForm
+
+
+
 {/* <div className="form-group">
   <input
     type="text"
