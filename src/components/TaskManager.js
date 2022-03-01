@@ -1,80 +1,90 @@
-// import {data} from './data'
-// import TaskForm from './TaskForm'
-
-
-// import React, { useState } from 'react'
 import axios from 'axios'
+import { Button } from 'bootstrap'
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 
-const TaskManager = () => {
-
-    const [tasks, setTasks] = useState([])
-  const [sum, setSum] = useState()
-
-  const djangoAPI = () => {
-    axios.get("http://127.0.0.1:8000/api/")
-    .then(response => {
-        console.log(response.data);
-        setTasks(response.data)
-    //   setSum(sum)
-    
-    })
-    .catch(err => console.log("Not found"))
-  }
-
-
+const TaskManager = ({sum, setSum, tasks, setTasks, grandTotal, djangoAPI}) => {
+  let navigate = useNavigate()
+  const { id } = useParams()
   
-  useEffect(() => {
-    djangoAPI()
-    console.log(tasks,sum);
-  }, [])
-
-  const grandTotal = function(){
-    let total = 0;
-    tasks.map(item => {
-      total += item.Quantity * item.Unit_Price
-      setSum(total)
-      return total
-      
-    })
+  const deleteTask = async (id) => {
+    if (window.confirm("Delete?") == true) {
+      await axios.delete(`http://127.0.0.1:8000/api/${id}/`);
+      djangoAPI()
+      navigate("/")
+    } else {
+      navigate("/")
+    }
+    
   }
+
+  // const openModal = (id) => {
+  // <div id="id01" className="modal">
+  //   <span onClick={() => navigate("/")} className="close" title="Close Modal">×</span>
+  //   <form className="modal-content" action="/">
+  //     <div className="container">
+  //       <h1>Delete Account</h1>
+  //       <p>Are you sure you want to delete your account?</p>
+
+  //       <div className="clearfix">
+  //         <button type="button" onClick={() => navigate("/")}>Cancel</button>
+  //         <button type="button" onClick={() => deleteTask(id)}>Delete</button>
+  //       </div>
+  //     </div>
+  //   </form>
+  // </div>
+  // }
 
   useEffect(() => {
     grandTotal()
+  }, [tasks])
+  
+
+  useEffect(() => {
+    djangoAPI()
   }, [])
-    
+
     
   return (
     <div>
         <table className='task-table'>
             <thead>
-                <tr>
-                    <th className='number'>S/No</th>
+                <tr className='number'>
+                    <th>S/No</th>
                     <th>Description</th>
                     <th>Brand</th>
                     <th>Quantity</th>
                     <th>Unit Price</th>
                     <th>Total Price</th>
+                    <th>Action</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody  className='descriptions'>
             
                 {tasks.map(task => (
                 <tr key={tasks.indexOf(task) + 1}>
-                    <td className="number">{tasks.indexOf(task) + 1}</td>
+                    <th className="number">{tasks.indexOf(task) + 1}</th>
                     <td>{task.Description}</td>
                     <td>{task.Brand}</td>
                     <td className='number'>{`${task.Quantity} ${task.Value}`}</td>
                     <td className='number'>{task.Unit_Price}</td>
-                    <td className='number'>{task.Quantity * task.Unit_Price}</td>
+                    <th className='number'>{task.Quantity * task.Unit_Price}</th>
+                    <td>
+                      <div className='container justify-content-center d-flex m-auto'>
+                        
+                      <button className='btn btn-danger m-auto' onClick={() => deleteTask(task.id)}>DEL</button>
+                      <Link to={`/update/${task.id}/`}>
+                      <button className='btn btn-primary m-auto'>EDIT</button>
+                      </Link>
+                      </div>
+                    </td>
                 </tr>
                 ))}
             </tbody>
             <tfoot>
                 <tr>
                     <th colSpan="5" className='number'>Grand Total Price</th>
-                    <th className='number'>{sum}</th>
+                    <th className='number'>{tasks && sum}</th>
                 </tr>   
             </tfoot>
         </table>

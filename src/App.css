@@ -64,3 +64,14 @@
   /* margin: auto; */
   text-align: center;
 }
+
+.task-table tfoot tr{
+  background-color: #61dafb;
+}
+
+.description tr td:hover,.description tr th:hover{
+  text-decoration-line: underline;
+  background-color: rgb(10, 109, 109);
+  color: orange;
+  cursor: pointer;
+}

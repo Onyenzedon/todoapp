@@ -1,32 +1,47 @@
-import axios from 'axios';
+import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-// import { data } from './data'
+import { useNavigate, useParams } from 'react-router-dom'
 
-const TaskForm = ({tasks, setTasks, grandTotal, sum}) => {
-  let navigate = useNavigate();
-  
-  const [description, setDescription] = useState("")
-  const [brand, setBrand] = useState("")
-  const [quantity, setQuantity] = useState()
-  const [value, setValue] = useState("")
-  const [unitPrice, setUnitPrice] = useState()
+const UpdateTask = () => {
+    let navigate = useNavigate()
+    const { id } = useParams()
 
-const addNewProduct = async () => {
-  let formField = new FormData();
+    const [description, setDescription] = useState("")
+    const [brand, setBrand] = useState("")
+    const [quantity, setQuantity] = useState("")
+    const [value, setValue] = useState("")
+    const [unitPrice, setUnitPrice] = useState("")
 
-  formField.append("Description", description);
-  formField.append("Brand", brand);
-  formField.append("Quantity", quantity);
-  formField.append("Value", value)
-  formField.append("Unit_Price", unitPrice)
+    useEffect(() => {
+    loadData()
+    }, []);
+
+        let loadData = async () => {
+        const result = await axios.get(`http://127.0.0.1:8000/api/${id}/`);
+        console.log(result.data);
+
+        setDescription(result.data.Description);
+        setBrand(result.data.Brand);
+        setQuantity(result.data.Quantity);
+        setValue(result.data.Value);
+        setUnitPrice(result.data.Unit_Price);
+    }
+
+const updateSingleData = async () => {
+    let formField = new FormData()
+
+    formField.append("Description", description);
+    formField.append("Brand", brand);
+    formField.append("Quantity", quantity);
+    formField.append("Value", value)
+    formField.append("Unit_Price", unitPrice)
   // formField.append("TotalPrice", quantity * unitPrice)
 
-  // console.log(formField);
+//   console.log(formField);
 
         await axios({
-          method: 'post',
-          url:"http://127.0.0.1:8000/api/",
+          method: 'put',
+          url:`http://127.0.0.1:8000/api/${id}/`,
           data: formField
         })
         .then((response) => {
@@ -34,19 +49,12 @@ const addNewProduct = async () => {
           navigate("/");
         })
         .catch(err => console.log(err))
-      };
-        
-      
+}
 
-      // useEffect(() => {
-      //   addNewProduct()
-      // }, []
-      // )
-      
 
   return (
-    <div className="container">
-        <div className="form-group">
+    <div>
+         <div className="form-group">
           <div className="form-group">
             <input
               type="text"
@@ -97,28 +105,15 @@ const addNewProduct = async () => {
               onChange={(e) => setUnitPrice(e.target.value)}
             />
           </div>
-          <button className="btn btn-primary btn-block" onClick={addNewProduct}>
-            Add Product
+          <button className="btn btn-primary  m-auto" onClick={updateSingleData}>
+            Update Product
           </button>
-          <Link to="/">
+          {/* <Link to="/">
             <button className='btn btn-primary mt-5'>Home</button>
-          </Link>
+          </Link> */}
         </div>
-      </div>
+    </div>
   )
 }
 
-export default TaskForm
-
-
-
-{/* <div className="form-group">
-  <input
-    type="text"
-    className="form-control form-control-lg"
-    placeholder="Enter Product Price"
-    name="totalPrice"
-    value={totalPrice}
-    onChange={(e) => setTotalPrice(e.target.value)}
-  />
-</div> */}
+export default UpdateTask
