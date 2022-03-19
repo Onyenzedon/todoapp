@@ -20,9 +20,9 @@ const addNewProduct = async () => {
   formField.append("Quantity", quantity);
   formField.append("Value", value)
   formField.append("Unit_Price", unitPrice)
-  // formField.append("TotalPrice", quantity * unitPrice)
+  formField.append("Total_Price", (quantity * unitPrice))
 
-  // console.log(formField);
+  // console.log(formField.);
 
         await axios({
           method: 'post',
@@ -30,10 +30,10 @@ const addNewProduct = async () => {
           data: formField
         })
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           navigate("/");
         })
-        .catch(err => console.log(err))
+        .catch(err => console.log("Empty Field Detected"))
       };
         
       
@@ -81,7 +81,7 @@ const addNewProduct = async () => {
             <input
               type="text"
               className="form-control form-control-lg"
-              placeholder="Enter Value"
+              placeholder="Enter A Value"
               name="value"
               value={value}
               onChange={(e) => setValue(e.target.value)}
@@ -97,7 +97,7 @@ const addNewProduct = async () => {
               onChange={(e) => setUnitPrice(e.target.value)}
             />
           </div>
-          <button className="btn btn-primary btn-block" onClick={addNewProduct}>
+          <button className='btn btn-primary mt-5 mr-3' onClick={addNewProduct}>
             Add Product
           </button>
           <Link to="/">

@@ -15,6 +15,7 @@ import axios from "axios"
 import { Link, useParams } from 'react-router-dom'
 import { Button } from "bootstrap";
 import UpdateTask from "./components/UpdateTask";
+import App2 from "./components/App2";
 
 
 function App() {
@@ -25,8 +26,8 @@ function App() {
   const djangoAPI = () => {
     axios.get("http://127.0.0.1:8000/api/")
     .then(response => {
-      console.log(response.data);
-      setTasks(response.data)
+      // console.log(response.data);
+      setTasks(response.data.reverse())
       //   setSum(sum)
       
     })
@@ -50,7 +51,7 @@ function App() {
       <div className="App">
        <Router>  
         <Routes>
-          <Route path="/" element={<TaskManager
+          <Route path="*" element={<App2
           sum={sum} 
           setSum={setSum} 
           tasks={tasks} 

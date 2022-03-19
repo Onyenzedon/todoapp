@@ -11,6 +11,7 @@ const UpdateTask = () => {
     const [quantity, setQuantity] = useState("")
     const [value, setValue] = useState("")
     const [unitPrice, setUnitPrice] = useState("")
+    const [data, setData] = useState({})
 
     useEffect(() => {
     loadData()
@@ -18,7 +19,7 @@ const UpdateTask = () => {
 
         let loadData = async () => {
         const result = await axios.get(`http://127.0.0.1:8000/api/${id}/`);
-        console.log(result.data);
+        // console.log(result.data);
 
         setDescription(result.data.Description);
         setBrand(result.data.Brand);
@@ -28,21 +29,23 @@ const UpdateTask = () => {
     }
 
 const updateSingleData = async () => {
-    let formField = new FormData()
+    // let formField = new FormData()
 
-    formField.append("Description", description);
-    formField.append("Brand", brand);
-    formField.append("Quantity", quantity);
-    formField.append("Value", value)
-    formField.append("Unit_Price", unitPrice)
-  // formField.append("TotalPrice", quantity * unitPrice)
+    // formField.append("Description", description);
+    // formField.append("Brand", brand);
+    // formField.append("Quantity", quantity);
+    // formField.append("Value", value)
+    // formField.append("Unit_Price", unitPrice)
+    // formField.append("Total_Price", (quantity * unitPrice))
+    let newData = {...data, "Description": description, "Brand": brand,  "Quantity": quantity, "Value": value,  "Unit_Price": unitPrice,  "Total_Price": (quantity * unitPrice)}
+    setData(newData);
 
-//   console.log(formField);
+  console.log("dat:", data);
 
         await axios({
           method: 'put',
           url:`http://127.0.0.1:8000/api/${id}/`,
-          data: formField
+          data: newData
         })
         .then((response) => {
           console.log(response.data);

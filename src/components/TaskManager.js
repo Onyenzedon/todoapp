@@ -1,9 +1,15 @@
 import axios from 'axios'
 import { Button } from 'bootstrap'
 import { useEffect, useState } from 'react'
+import Slider from 'rc-slider'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 
-const TaskManager = ({sum, setSum, tasks, setTasks, grandTotal, djangoAPI}) => {
+const TaskManager = ({
+  sum, setSum, tasks, setTasks, grandTotal, djangoAPI, credentials,
+  setCredentials,
+  userLogin,
+  login,
+  register}) => {
   let navigate = useNavigate()
   const { id } = useParams()
   
@@ -92,6 +98,10 @@ const TaskManager = ({sum, setSum, tasks, setTasks, grandTotal, djangoAPI}) => {
             <Link to="/taskform/" className='btn btn-primary mt-5 mr-3'>
                 Add
             </Link>
+            <Link to='/login/' className='btn btn-primary mt-5 mr-3'>
+              Login
+            </Link>
+            <Slider/>
         </div>
     </div>
   )
